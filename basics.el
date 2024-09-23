@@ -71,16 +71,15 @@
 
 (use-package package
   :init
-  (setq use-package-always-ensure t);; Initialize package system
+  (setq straight-use-package-by-default t);; Initialize package system
   :custom
   (package-native-compile t)                         ;; Enable native compilation
-  (setq package-archives '(("melpa" . "http://melpa.org/packages/")
-                           ("gnu" . "http://elpa.gnu.org/packages/")))
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("gnu" . "https://elpa.gnu.org/packages/")))
   (package-initialize)
   (unless package-archive-contents
   (package-refresh-contents))
   )
-  
 
 ;; Utility Functions
 (defun today-org (directory)

@@ -8,6 +8,39 @@
 (setq debug-on-error t)
 (setq debug-on-quit t)
 
+;; Bootstrap straight.el
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+;; Configure straight.el with use-package
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
+
+;; Performance optimization
+;; (use-package use-package-report
+;;   :straight t
+;;   :commands (use-package-report)
+;;   :config
+;;   (setq use-package-report-file (expand-file-name "use-package-report.el" user-emacs-directory)))
+
+;; Use a larger gc-cons-threshold during initialization to speed up startup
+(setq gc-cons-threshold (* 100 1024 1024))
+
+;; Reset gc-cons-threshold after initialization
+(add-hook 'after-init-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 10 1024 1024))))
+
 ;; Define WS detection
 (defvar is-wsl
   (or (getenv "WSLENV")
@@ -96,7 +129,9 @@
 
  (load "~/.newemacs.d/modules/org.el")
 
- (add-hook 'emacs-startup-hook #'efs/display-startup-time)
+(add-hook 'emacs-startup-hook #'efs/display-startup-time)
+(use-package-report)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

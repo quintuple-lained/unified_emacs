@@ -1,5 +1,4 @@
 (use-package base16-theme
-  :ensure t
   :config
   (load-theme 'base16-gruvbox-dark-soft t)
   )
@@ -71,7 +70,6 @@
   )
 
 (use-package rustic
-  :ensure t
   :config
   (setq rustic-format-on-save t)
   :hook (
